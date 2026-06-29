@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda — EBABlue Handmade</title>
+  <meta name="description" content="Compra bisutería artesanal dominicana. Collares, pulseras, aretes y sets únicos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo">EBA<span>Blue</span></a>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html#coleccion" data-i18n="nav_collection">Colección</a></li>
+      <li><a href="index.html#historia" data-i18n="nav_about">Nosotros</a></li>
+      <li><a href="index.html#testimonios" data-i18n="nav_reviews">Reseñas</a></li>
+      <li><a href="tienda.html" data-i18n="nav_store" style="color:var(--teal)">Tienda</a></li>
+      <li><a href="index.html#contacto" data-i18n="nav_contact">Contacto</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="cart-btn" id="cartNavBtn" title="Carrito">
+        <span class="material-icons" style="font-size:1.2rem">shopping_bag</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Store Header -->
+<div class="store-header">
+  <div class="container">
+    <div class="section__tag" data-i18n="store_tag">✦ Tienda</div>
+    <h1 class="store-header__title" data-i18n="store_title">Nuestra Colección</h1>
+    <p class="store-header__sub" data-i18n="store_sub">Piezas artesanales únicas, hechas con amor</p>
+  </div>
+</div>
+
+<!-- Store Layout -->
+<div class="container">
+  <div class="store-layout">
+
+    <!-- Filters Sidebar -->
+    <aside class="filters">
+      <div class="filters__title" data-i18n="filter_title">Filtros</div>
+
+      <div class="filter-group">
+        <span class="filter-group__label" data-i18n="filter_cat">Categoría</span>
+        <div class="filter-chips" id="categoryFilters">
+          <button class="chip active" data-cat="all" data-i18n="cat_all">Todas</button>
+          <button class="chip" data-cat="collares" data-i18n="cat_collares">Collares</button>
+          <button class="chip" data-cat="pulseras" data-i18n="cat_pulseras">Pulseras</button>
+          <button class="chip" data-cat="aretes" data-i18n="cat_aretes">Aretes</button>
+          <button class="chip" data-cat="sets" data-i18n="cat_sets">Sets</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__label" data-i18n="filter_price">Precio máximo</span>
+        <input type="range" id="priceRange" min="0" max="2000" value="2000" step="100"
+               style="width:100%;accent-color:var(--teal)" />
+        <div style="font-size:.8rem;color:var(--gray-4);margin-top:4px">
+          <span data-i18n="up_to">Hasta</span> RD$<span id="priceVal">2000</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__label" data-i18n="filter_avail">Disponibilidad</span>
+        <div class="filter-chips">
+          <label style="display:flex;align-items:center;gap:8px;font-size:.83rem;cursor:pointer">
+            <input type="checkbox" id="onlyAvail" checked style="accent-color:var(--teal)" />
+            <span data-i18n="only_avail">Solo disponibles</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn btn-outline btn-sm" id="clearFilters" style="width:100%;justify-content:center">
+        <span class="material-icons" style="font-size:.9rem">refresh</span>
+        <span data-i18n="clear_filters">Limpiar filtros</span>
+      </button>
+    </aside>
+
+    <!-- Products -->
+    <div>
+      <div class="store-search">
+        <input class="store-search__input" type="search" id="searchInput"
+               placeholder="Buscar productos..." data-i18n-placeholder="search_placeholder" />
+        <span class="store-count" id="storeCount"></span>
+      </div>
+      <div class="products-grid" id="productsGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0">
+      <span data-i18n="footer_copy">© 2025 EBABlue Handmade.</span>
+      <a href="index.html" style="color:rgba(255,255,255,.5);font-size:.85rem" data-i18n="back_home">← Inicio</a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/18091234567?text=Hola%20EBABlue%21"
+   class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <span class="material-icons">chat</span>
+</a>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer__head">
+    <div class="cart-drawer__title" data-i18n="cart_title">Tu carrito</div>
+    <button class="cart-drawer__close" id="cartClose">
+      <span class="material-icons" style="font-size:1rem">close</span>
+    </button>
+  </div>
+  <div class="cart-drawer__body" id="cartBody">
+    <div class="cart-empty">
+      <div class="cart-empty__icon">🛍️</div>
+      <p data-i18n="cart_empty">Tu carrito está vacío</p>
+    </div>
+  </div>
+  <div class="cart-drawer__foot" id="cartFoot" style="display:none">
+    <div class="cart-total">
+      <span data-i18n="cart_total">Total</span>
+      <span class="cart-total__amount" id="cartTotal">RD$0</span>
+    </div>
+    <button class="btn btn-whatsapp" id="cartCheckout">
+      <span class="material-icons" style="font-size:1rem">chat</span>
+      <span data-i18n="cart_checkout">Pedir por WhatsApp</span>
+    </button>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/store.js"></script>
+</body>
+</html>

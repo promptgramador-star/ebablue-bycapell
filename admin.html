@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — EBABlue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="admin-login" id="loginScreen">
+  <div class="admin-login__box">
+    <div class="admin-login__logo">EBA<span style="color:var(--violet)">Blue</span> Admin</div>
+    <p class="admin-login__sub">Panel de administración</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label" for="loginPass">Contraseña</label>
+        <input class="form-input" type="password" id="loginPass" autocomplete="current-password" />
+      </div>
+      <p class="login-error" id="loginError">Contraseña incorrecta</p>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px">
+        <span class="material-icons" style="font-size:1rem">lock_open</span>
+        Ingresar
+      </button>
+    </form>
+    <div style="margin-top:20px;font-size:.75rem;color:var(--gray-4);text-align:center">
+      <a href="index.html" style="color:var(--teal)">← Volver al sitio</a>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+
+  <nav class="admin-nav">
+    <div class="admin-nav__logo">EBABlue Admin</div>
+    <div class="admin-nav__actions">
+      <button class="btn btn-outline btn-sm" id="exportBtn" style="border-color:rgba(255,255,255,.3);color:white">
+        <span class="material-icons" style="font-size:.9rem">download</span>
+        Exportar JSON
+      </button>
+      <button class="btn btn-sm" id="logoutBtn" style="color:rgba(255,255,255,.6)">
+        <span class="material-icons" style="font-size:.9rem">logout</span>
+        Salir
+      </button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+    <div class="admin-toolbar">
+      <div class="admin-toolbar__title">Productos</div>
+      <button class="btn btn-primary btn-sm" id="newProductBtn">
+        <span class="material-icons" style="font-size:.9rem">add</span>
+        Nuevo producto
+      </button>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Disponible</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody">
+          <!-- Rendered by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div style="background:var(--gold-lt);border:1px solid var(--gold);border-radius:var(--radius-sm);padding:16px;font-size:.83rem;color:#856404">
+      <strong>💡 ¿Cómo actualizar la tienda?</strong><br>
+      1. Hacé los cambios en este panel.<br>
+      2. Cliqueá <strong>Exportar JSON</strong> para descargar el catálogo actualizado.<br>
+      3. Reemplazá <code>data/productos.json</code> en tu repositorio de GitHub.<br>
+      4. Hacé commit & push — la tienda se actualiza automáticamente.
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <div class="modal__head">
+      <div class="modal__title" id="modalTitle">Nuevo producto</div>
+      <button class="modal__close" id="modalClose">
+        <span class="material-icons" style="font-size:1rem">close</span>
+      </button>
+    </div>
+    <div class="modal__body">
+      <form id="productForm">
+        <input type="hidden" id="fieldId" />
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group">
+            <label class="form-label">Nombre (ES) *</label>
+            <input class="form-input" type="text" id="fieldNombre" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Name (EN)</label>
+            <input class="form-input" type="text" id="fieldNombreEn" />
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group">
+            <label class="form-label">Categoría *</label>
+            <select class="form-select" id="fieldCategoria" required>
+              <option value="collares">Collares</option>
+              <option value="pulseras">Pulseras</option>
+              <option value="aretes">Aretes</option>
+              <option value="sets">Sets</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Precio (RD$) *</label>
+            <input class="form-input" type="number" id="fieldPrecio" min="0" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descripción (ES)</label>
+          <textarea class="form-textarea" id="fieldDesc"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description (EN)</label>
+          <textarea class="form-textarea" id="fieldDescEn"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ruta de imagen</label>
+          <input class="form-input" type="text" id="fieldImagen" placeholder="img/nombre-producto.jpg" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje WhatsApp</label>
+          <input class="form-input" type="text" id="fieldWa" placeholder="Hola, me interesa el producto..." />
+        </div>
+        <div style="display:flex;gap:24px;margin-top:8px">
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;cursor:pointer">
+            <input type="checkbox" id="fieldDestacado" style="accent-color:var(--teal)" />
+            Destacado en home
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;cursor:pointer">
+            <input type="checkbox" id="fieldDisponible" checked style="accent-color:var(--teal)" />
+            Disponible
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn-outline btn-sm" id="modalCancel">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="modalSave">
+        <span class="material-icons" style="font-size:.9rem">save</span>
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal__head">
+      <div class="modal__title">Confirmar eliminación</div>
+      <button class="modal__close" id="confirmClose">
+        <span class="material-icons" style="font-size:1rem">close</span>
+      </button>
+    </div>
+    <div class="modal__body">
+      <p style="font-size:.9rem;color:var(--text-lt)">¿Eliminás este producto? Esta acción no se puede deshacer hasta que exportes y commitees el JSON anterior.</p>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn-outline btn-sm" id="confirmCancel">Cancelar</button>
+      <button class="btn btn-sm" id="confirmDelete" style="background:#e74c3c;color:white">
+        <span class="material-icons" style="font-size:.9rem">delete</span>
+        Eliminar
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>
